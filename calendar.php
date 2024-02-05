@@ -34,39 +34,57 @@ function generateCalendar($year, $festivalData) {
         $firstDay = mktime(0, 0, 0, $month, 1, $year);
         // Get the number of days in the month
         $daysInMonth = date('t', $firstDay);
+        
         // Output HTML for each month side by side
         echo "<div style='margin-right: 20px;'>";
         echo "<h2>" . date('F Y', $firstDay) . "</h2>";
         echo "<table border='1'>";
         echo "<tr>";
+        
         // Output day names
         $dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         foreach ($dayNames as $day) {
             echo "<th>$day</th>";
         }
         echo "</tr><tr>";
+        
         // Output blank cells for the days before the first day of the month
         for ($i = 0; $i < date('w', $firstDay); $i++) {
             echo "<td></td>";
         }
+        
         // Output the days of the month
         for ($day = 1; $day <= $daysInMonth; $day++) {
             $currentDate = date('Y-m-d', mktime(0, 0, 0, $month, $day, $year));
             $festival = isset($festivalData[$currentDate]) ? $festivalData[$currentDate] : '';
-            echo "<td>";
-            echo "$day<br>$festival";
+            
+            // Determine the style for the cell based on the festival presence
+            $cellStyle = empty($festival) ? '' : 'style="color: red;"';
+            
+            echo "<td $cellStyle>";
+            echo "$day";
             echo "</td>";
+            
             // Start a new row if it's the last day of the week
             if (date('w', mktime(0, 0, 0, $month, $day, $year)) == 6) {
                 echo "</tr><tr>";
             }
         }
+        
         // Output blank cells for the remaining days in the last week
         for ($i = date('w', mktime(0, 0, 0, $month, $day, $year)); $i < 6; $i++) {
             echo "<td></td>";
         }
+        
         echo "</tr></table>";
+
+        // Display festivals on the right side in an unordered list
+        echo "<ul style='list-style-type:none; color: red;'>";
+        foreach ($festivalData as $date => $festival) {
+            echo "<li>" . date('F j, Y', strtotime($date)) . ": $festival</li>";
+        }
+        echo "</ul>";
+
         echo "</div>";
     }
 }
-?>
