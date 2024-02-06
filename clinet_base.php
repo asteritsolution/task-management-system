@@ -1,11 +1,10 @@
-
     <table class="table table-striped table-dark">
         <thead>
-            <tr>
-                <th>Date</th>
-                <th>Client Name</th>
-                <th>Reel Content</th>
-                <th>Static Content</th>
+            <tr style="font-size: 20px; width:100%;">
+                <th style="width:10%;">Date</th>
+                <th style="width:10%;" >Client Name</th>
+                <th style="width:40%;">Reel Content</th>
+                <th style="width:40%;">Static Content</th>
             </tr>
         </thead>
         <tbody>

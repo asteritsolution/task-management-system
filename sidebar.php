@@ -94,12 +94,19 @@
                     </a>
                 </li>
 
-
+                <?php if ($_SESSION['login_type'] == 1 || $_SESSION['login_type'] == 4) : ?>
+                    <li class="nav-item">
+                        <a href="./index.php?page=write_content" class="nav-link nav-write_content">
+                            <i class="fas fa-pen nav-icon"></i>
+                            <p>Write Content</p>
+                        </a>
+                    </li>
+                <?php endif; ?>
 
 
                 <li class="nav-item">
                     <a href="./index.php?page=clinet_base" class="nav-link nav-clinet_base">
-                        <i class="fas fa-user nav-icon"></i>
+                        <i class="fas fa-pen nav-icon"></i>
                         <p>Clinet Content</p>
                     </a>
                 </li>

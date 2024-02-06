@@ -28,15 +28,26 @@ if ($response !== false) {
 }
 
 function generateCalendar($year, $festivalData) {
+    // Get current month and year
+    $currentMonth = date('n');
+    $currentYear = date('Y');
+
     // Output HTML for each month side by side
     for ($month = 1; $month <= 12; $month++) {
+        // Skip past months if current year
+        if ($year == $currentYear && $month < $currentMonth)
+            continue;
+
         // Get the first day of the month
         $firstDay = mktime(0, 0, 0, $month, 1, $year);
         // Get the number of days in the month
         $daysInMonth = date('t', $firstDay);
         
-        // Output HTML for each month side by side
-        echo "<div style='margin-right: 20px;'>";
+        // Start container div for the month
+        echo "<div style='display: flex; margin-bottom: 20px;'>";
+
+        // Output calendar for the month
+        echo "<div style='flex: 1;'>";
         echo "<h2>" . date('F Y', $firstDay) . "</h2>";
         echo "<table border='1'>";
         echo "<tr>";
@@ -77,14 +88,21 @@ function generateCalendar($year, $festivalData) {
         }
         
         echo "</tr></table>";
+        echo "</div>"; // End calendar div
 
-        // Display festivals on the right side in an unordered list
+        // Display festivals for the current month on the right side
+        echo "<div style='flex: 1;'>";
+        echo "<h3>Festivals</h3>";
         echo "<ul style='list-style-type:none; color: red;'>";
         foreach ($festivalData as $date => $festival) {
-            echo "<li>" . date('F j, Y', strtotime($date)) . ": $festival</li>";
+            $festivalMonth = date('n', strtotime($date));
+            if ($festivalMonth == $month) {
+                echo "<li>" . date('F j, Y', strtotime($date)) . ": $festival</li>";
+            }
         }
         echo "</ul>";
+        echo "</div>"; // End festivals div
 
-        echo "</div>";
+        echo "</div>"; // End container div
     }
 }
